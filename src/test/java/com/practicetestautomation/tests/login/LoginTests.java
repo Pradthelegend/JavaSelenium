@@ -1,9 +1,9 @@
 package com.practicetestautomation.tests.login;
 
 import com.practicetestautomation.pageobjects.LoginPage;
+import com.practicetestautomation.pageobjects.SuccssfulLoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -47,33 +47,16 @@ public class LoginTests {
 
     @Test(groups = {"positive","regression","smoke"})
     public void testLoginFunctionality() {
+        logger.info("Strrting testLoginFunctionality");
         LoginPage loginpage = new LoginPage(driver);
         loginpage.visit();
-        // Type username student into Username field
-        WebElement usernameInput = driver.findElement(By.id("username"));
-        usernameInput.sendKeys("student");
-
-        // Type password Password123 into Password field
-        WebElement passwordInput = driver.findElement(By.id("password"));
-        passwordInput.sendKeys("Password123");
-
-        // Push Submit button
-        WebElement submitButton = driver.findElement(By.id("sbmit"));
-        submitButton.click();
-
-        // Verify new page URL contains practicetestautomation.com/logged-in-successfully/
-        String expectedUrl = "https://practicetestautomation.com/logged-in-successfully/";
-        String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals(actualUrl, expectedUrl);
-
-        // Verify new page contains expected text ('Congratulations' or 'successfully logged in')
-        String expectedMessage = "Congratulations student. You successfully logged in!";
-        String pageSource = driver.getPageSource();
-        Assert.assertTrue(pageSource.contains(expectedMessage));
-
-        // Verify button Log out is displayed on the new page
-        WebElement logOutButton = driver.findElement(By.linkText("Log out"));
-        Assert.assertTrue(logOutButton.isDisplayed());
+        SuccssfulLoginPage succssfulLoginPage = loginpage.executeLogin("student","Password123");
+        succssfulLoginPage.load();
+        succssfulLoginPage.isLogoutButtonDisplayed();
+        logger.info("Verify the login functionality");
+        Assert.assertEquals(succssfulLoginPage.getCurrentUrl(), "https://practicetestautomation.com/logged-in-successfully/");
+        Assert.assertTrue(succssfulLoginPage.getPageSource().contains("Congratulations student. You successfully logged in!"));
+        Assert.assertTrue(succssfulLoginPage.isLogoutButtonDisplayed());
     }
 
     @Parameters({"username","password","expectedErrorMessage"})

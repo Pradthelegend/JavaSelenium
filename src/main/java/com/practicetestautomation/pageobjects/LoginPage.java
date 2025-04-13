@@ -15,7 +15,7 @@ public class LoginPage extends BasePage {
     }
 
     public void visit(){
-        super.visit("https://practicetestautomation.com/practice-test-exceptions/");
+        super.visit("https://practicetestautomation.com/practice-test-login/");
     }
 
     public void enterUsername(String username){
