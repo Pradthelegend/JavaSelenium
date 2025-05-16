@@ -65,7 +65,6 @@ public class LoginTests {
         loginPage.visit();
         loginPage.executeLogin(username,password);
         Assert.assertEquals(loginPage.getErrorMessage(),expectedErrorMessage);
-
     }
 
 
