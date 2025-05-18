@@ -1,16 +1,12 @@
 package com.practicetestautomation.tests.exceptions;
 
 import com.practicetestautomation.pageobjects.ExceptionsPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,22 +73,26 @@ public class ExceptionsTests {
         exceptionsPage.isRowTwoDisplayedAfterWait();
         exceptionsPage.enterFoodInRow2("Sushi");
         exceptionsPage.saveRow2();
-        Assert.assertEquals(exceptionsPage.getSuccessMessage(),"Row 2 was saved","Message is not fisible");
+        Assert.assertEquals(exceptionsPage.getSuccessMessage(),"Row 2 was saved","Message is not visible");
 
     }
 
     @Test
     public void invalidElementStateException(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@value='Pizza']"))).clear();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@value='Pizza']"))).sendKeys("Hello");
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.pushEditButton();
+        exceptionsPage.enterFoodInRow1("Sushi");
+        exceptionsPage.saveRow1();
+        Assert.assertEquals(exceptionsPage.getSuccessMessage(),"Row 1 was saved","Message is not visible");
     }
 
     @Test
     public void staleElementReferenceException(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='add_btn']"))).click();
-        Assert.assertTrue(wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("instructions"))),"The Element is still dispalyed--ERROR");
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.pushAddButton();
+        Assert.assertTrue(exceptionsPage.isInstructionsElementHiddenAfterWait(),"The Element is still dispalyed--ERROR");
     }
 
 
