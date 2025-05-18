@@ -1,10 +1,10 @@
 package com.practicetestautomation.tests.exceptions;
 
+import com.practicetestautomation.pageobjects.ExceptionsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -52,37 +52,33 @@ public class ExceptionsTests {
     @Test
     public void noSuchElementException() {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Add']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input[@class='input-field']")));
-
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='row2']/input[@class='input-field']")).isDisplayed(),"Row2 error message is not displayed");
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.pushAddButton();
+        Assert.assertTrue(exceptionsPage.isRowTwoDisplayedAfterWait(),"Row2 error message is not displayed");
 
     }
 
     @Test
     public void timeOutexception(){
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.pushAddButton();
+        Assert.assertTrue(exceptionsPage.isRowTwoDisplayedAfterWait(),"Row2 error message is not displayed");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Add']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input[@class='input-field']")));
-
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='row2']/input[@class='input-field']")).isDisplayed(),"Row2 error message is not displayed");
     }
 
     @Test
     public void elementNotInteractableException(){
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        Actions action = new Actions(driver);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Add']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input[@class='input-field']"))).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='row2']/input[@class='input-field']")).isDisplayed(),"Row2 error message is not displayed");
-        action.sendKeys("Test").perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//button[text()='Save'])[2]"))).click();
-        String  actualMessage = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("confirmation"))).getText();
-        String expectedMessage = "Row 2 was saved";
-        Assert.assertEquals(actualMessage,expectedMessage);
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.pushAddButton();
+        exceptionsPage.isRowTwoDisplayedAfterWait();
+        exceptionsPage.enterFoodInRow2("Sushi");
+        exceptionsPage.saveRow2();
+        Assert.assertEquals(exceptionsPage.getSuccessMessage(),"Row 2 was saved","Message is not fisible");
+
     }
 
     @Test
