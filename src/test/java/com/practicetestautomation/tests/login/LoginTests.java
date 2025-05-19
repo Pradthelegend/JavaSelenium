@@ -2,47 +2,12 @@ package com.practicetestautomation.tests.login;
 
 import com.practicetestautomation.pageobjects.LoginPage;
 import com.practicetestautomation.pageobjects.SuccssfulLoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import com.practicetestautomation.tests.BaseTest;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class LoginTests {
-    private WebDriver driver;
-    private Logger logger;
-
-    @BeforeMethod(alwaysRun = true)
-    @Parameters("browser")
-    public void beforeAction(@Optional("chrome") String browser) {
-        logger = Logger.getLogger(LoginTests.class.getName());
-        logger.setLevel(Level.INFO);
-        logger.info(browser);
-        logger.warning("String");
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-                break;
-            case "firefox":
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
-                break;
-            default:
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-        }
-
-
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void afterAction(){
-        driver.quit();
-    }
+public class LoginTests extends BaseTest {
 
     @Test(groups = {"positive","regression","smoke"})
     public void testLoginFunctionality() {

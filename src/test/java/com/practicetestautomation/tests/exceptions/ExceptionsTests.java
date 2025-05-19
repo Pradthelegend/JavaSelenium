@@ -1,50 +1,11 @@
 package com.practicetestautomation.tests.exceptions;
 
 import com.practicetestautomation.pageobjects.ExceptionsPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import com.practicetestautomation.tests.BaseTest;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class ExceptionsTests {
-    private WebDriver driver;
-    private Logger logger;
-
-    @BeforeMethod(alwaysRun = true)
-    @Parameters("browser")
-    public void beforeAction(@Optional("chrome") String browser) {
-        logger = Logger.getLogger(ExceptionsTests.class.getName());
-        logger.setLevel(Level.INFO);
-        logger.info(browser);
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-                break;
-            case "firefox":
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
-                break;
-            default:
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-        }
-        //Implicit Wait
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://practicetestautomation.com/practice-test-exceptions/");
-    }
-    // Open page
-//        driver = new ChromeDriver();
-//        driver.get("https://practicetestautomation.com/practice-test-login/");
-
-    @AfterMethod(alwaysRun = true)
-    public void afterAction(){
-        driver.quit();
-    }
+public class ExceptionsTests extends BaseTest {
     @Test
     public void noSuchElementException() {
 
