@@ -38,8 +38,8 @@ public class LoginPage extends BasePage {
     }
 
     public String getErrorMessage(){
-        WebElement errorMesageElement = waitForElement(errorMessageLocator);
-        return errorMesageElement.getText();
+        WebElement errorMessageElement = waitForElement(errorMessageLocator);
+        return errorMessageElement.getText();
     }
 
 

@@ -32,7 +32,7 @@ public class BaseTest {
                 driver.manage().window().maximize();
                 break;
             default:
-                driver = new ChromeDriver();
+                driver = new FirefoxDriver();
                 driver.manage().window().maximize();
         }
         //Implicit Wait
